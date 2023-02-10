@@ -44,12 +44,12 @@ namespace Infrastructure.Data
 
         public int Commit()
         {
-            throw new NotImplementedException();
+            return _dbContext.SaveChanges();
         }
 
         public Task<int> CommitAsync()
         {
-            throw new NotImplementedException();
+            return _dbContext.SaveChangesAsync();
         }
 
         public void Dispose()

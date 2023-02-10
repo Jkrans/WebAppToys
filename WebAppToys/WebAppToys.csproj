@@ -19,6 +19,7 @@
     <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
     <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <None Remove="Pages\Categories\" />
+    <None Remove="Pages\Toys\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
@@ -37,6 +38,7 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Pages\Categories\" />
+    <Folder Include="Pages\Toys\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">

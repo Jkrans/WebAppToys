@@ -1,0 +1,57 @@
+﻿@page
+@model WebAppToys.Pages.Toys.UpsertModel
+
+<form method="post" asp-action="Upsert">
+    <div class="container">
+        <div class="row px-2 mx-2 backgroundwhite border">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="col-12 px-3" style="border-bottom: 1px solid #325d88">
+                <h2 class="text-primary">@(Model.ToyObj.Id !=0 ? "Update" : "Create") Toy</h2>
+            </div>
+            <div class="col-8 pt-3">
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="ToyObj.Name"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="ToyObj.Name" />
+                        <span class="text-danger" asp-validation-for="ToyObj.Name"></span>
+                    </div>
+                    @if (Model.ToyObj.Id != 0)
+                    {<input type="hidden" asp-for="ToyObj.Id" />}
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="ToyObj.Description"></label>
+                    </div>
+                    <div class="col-9">
+                        <textarea id="txtDesc" class="form-control" style="height:200px;" asp-for="ToyObj.Description"></textarea>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <div class="col-9 offset-3">
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary form-control">@(Model.ToyObj.Id !=0 ? "Update" : "Create")</button>
+                            </div>
+                            <div class="col-6">
+                                <a asp-page="./Index" type="submit" class="btn btn-success form-control">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
+
+
+
+
