@@ -1,18 +1,22 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using _3700WebAppToys.Data;
+using Microsoft.Extensions.DependencyInjection;
+//using WebAppToys.Data;
+using Infrastructure.Data;
+using ApplicationCore.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
@@ -33,9 +37,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapControllers();
 
 app.Run();
 

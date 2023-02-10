@@ -4,8 +4,9 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-_3700WebAppToys-cb6b9426-9ddb-45ee-83d1-e743734e12d9</UserSecretsId>
-    <RootNamespace>_3700WebAppToys</RootNamespace>
+    <UserSecretsId>aspnet-_WebAppToys-cb6b9426-9ddb-45ee-83d1-e743734e12d9</UserSecretsId>
+    <RootNamespace>_WebAppToys</RootNamespace>
+    <AssemblyName>WebAppToys</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />

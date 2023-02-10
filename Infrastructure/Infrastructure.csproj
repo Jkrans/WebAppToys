@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
+  <ItemGroup>
+    <None Remove="Data\" />
+    <None Remove="Services\" />
+    <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
+    <None Remove="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
+    <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <None Remove="Migrations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Services\" />
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
