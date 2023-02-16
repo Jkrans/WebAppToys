@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class reset : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -64,17 +64,21 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Toy",
+                name: "Listing",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId = table.Column<int>(name: "Category_Id", type: "int", nullable: false),
+                    UserId = table.Column<int>(name: "User_Id", type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Toy", x => x.Id);
+                    table.PrimaryKey("PK_Listing", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -245,7 +249,7 @@ namespace Infrastructure.Migrations
                 name: "Category");
 
             migrationBuilder.DropTable(
-                name: "Toy");
+                name: "Listing");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

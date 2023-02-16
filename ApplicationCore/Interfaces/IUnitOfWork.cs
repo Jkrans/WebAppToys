@@ -10,7 +10,7 @@ namespace ApplicationCore.Interfaces
 	public interface IUnitOfWork
 	{
         public IGenericRepository<Category> Category { get; }
-        public IGenericRepository<Toy> Toy { get; }
+        public IGenericRepository<Listing> Listing { get; }
 
         // save changes to the data source
         int Commit();

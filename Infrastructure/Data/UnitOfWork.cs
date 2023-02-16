@@ -14,7 +14,7 @@ namespace Infrastructure.Data
 		}
 
         private IGenericRepository<Category> _Category;
-        private IGenericRepository<Toy> _Toy;
+        private IGenericRepository<Listing> _Listing;
 
         public IGenericRepository<Category> Category
         {
@@ -29,16 +29,16 @@ namespace Infrastructure.Data
             }
         }
 
-        public IGenericRepository<Toy> Toy
+        public IGenericRepository<Listing> Listing
         {
             get
             {
-                if (_Toy == null)
+                if (_Listing == null)
                 {
-                    _Toy = new GenericRepository<Toy>(_dbContext);
+                    _Listing = new GenericRepository<Listing>(_dbContext);
                 }
 
-                return _Toy;
+                return _Listing;
             }
         }
 

@@ -7,24 +7,24 @@ using ApplicationCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebAppToys.Pages.Toys
+namespace WebAppToys.Pages.Listings
 {
     public class UpsertModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;
 
         [BindProperty]
-        public Toy ToyObj { get; set; }
+        public Listing ListingObj { get; set; }
 
         public UpsertModel(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
         public IActionResult OnGet(int? id)
         {
-            ToyObj = new Toy();
+            ListingObj = new Listing();
             if (id != 0) // edit
             {
-                ToyObj = _unitOfWork.Toy.Get(u => u.Id == id);
-                if (ToyObj == null)
+                ListingObj = _unitOfWork.Listing.Get(u => u.Id == id);
+                if (ListingObj == null)
                 {
                     return NotFound();
                 }
@@ -41,14 +41,14 @@ namespace WebAppToys.Pages.Toys
             }
 
             // if new
-            if (ToyObj.Id == 0)
+            if (ListingObj.Id == 0)
             {
-                _unitOfWork.Toy.Add(ToyObj);
+                _unitOfWork.Listing.Add(ListingObj);
             }
 
             else
             {
-                _unitOfWork.Toy.Update(ToyObj);
+                _unitOfWork.Listing.Update(ListingObj);
             }
 
             _unitOfWork.Commit();

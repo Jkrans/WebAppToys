@@ -9,26 +9,26 @@ namespace WebAppToys.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ToyController : Controller
+    public class ListingController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ToyController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        public ListingController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Json(new { data = _unitOfWork.Toy.List() });
+            return Json(new { data = _unitOfWork.Listing.List() });
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var objFromDb = _unitOfWork.Toy.Get(c => c.Id == id);
+            var objFromDb = _unitOfWork.Listing.Get(c => c.Id == id);
             if (objFromDb == null)
             {
                 return Json(new { success = false, message = "Error while deleting" });
             }
-            _unitOfWork.Toy.Delete(objFromDb);
+            _unitOfWork.Listing.Delete(objFromDb);
             _unitOfWork.Commit();
             return Json(new { success = true, message = "Deleted Successfully" });
         }
