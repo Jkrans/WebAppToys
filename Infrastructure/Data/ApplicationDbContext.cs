@@ -13,6 +13,7 @@ namespace Infrastructure.Data
         // Create a database table based on the model from ApplicationCore.Models
         public DbSet<Category> Category { get; set; }
         public DbSet<Listing> Listing { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
     }
 }
