@@ -1,6 +1,6 @@
 ﻿@page
 @model WebAppToys.Pages.Listings.IndexModel
-
+@using Infrastructure.Utility
 @{
     ViewData["Title"] = "Listings";
 }
@@ -11,9 +11,13 @@
             <h2 class="text-primary">Toy List</h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-page="Upsert" asp-route-id="0" class="btn btn-primary">
-                <i class="fas fa-plus"></i>&nbsp;Create New
-            </a>
+            @if (User.IsInRole(SD.UserRole))
+            {
+                <a asp-page="Upsert" asp-route-id="0" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>&nbsp;Create New
+                </a>
+            }
+
         </div>
     </div>
     </br></br>
@@ -34,6 +38,13 @@
 
 </table>
 @section Scripts{
-    <script src="~/js/listing.js"></script>
-}
+    @if (User.IsInRole(SD.UserRole) || User.IsInRole(SD.AdminRole))
+        {
+            <script src="~/js/listing.js"></script>
+        }
+        else
+        {
+            <script src="~/js/listingView.js"></script>
+        }
+    }
 
