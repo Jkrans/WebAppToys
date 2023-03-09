@@ -13,7 +13,7 @@ namespace ApplicationCore.Models
         public string? Image { get; set; }
         public string? Status { get; set; }
         public int Category_Id { get; set; } // foreign key to category
-        public int User_Id { get; set; } // foreign key to user
+        public string User_Id { get; set; } // foreign key to user
     }
 }
 

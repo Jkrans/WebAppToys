@@ -7,7 +7,7 @@ using ApplicationCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebAppToys.Pages.Categories
+namespace WebAppToys.Pages.Admin.Categories
 {
     public class UpsertModel : PageModel
     {

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebAppToys.Pages.Listings
+namespace WebAppToys.Pages.Admin.Listings
 {
     public class IndexModel : PageModel
     {

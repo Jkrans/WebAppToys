@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using ApplicationCore.Models;
 
 namespace ApplicationCore.Interfaces
 {
@@ -45,6 +46,7 @@ namespace ApplicationCore.Interfaces
 
         //Update all changes in an object
         void Update(T entity);
+       
     }
 }
 

@@ -13,8 +13,18 @@ function loadList() {
             "datatype": "json"
         },
         "columns": [
-            { data: "name", width: "40%" },
-            { data: "description", width: "60%" }
+            { data: "name", width: "75%" },
+            {
+                data: "id", width: "25%",
+                "render": function (data) {
+                    return `<div class="text-center">
+                            
+                            <a href="./Listings/details?id=${data}"
+                            class ="btn btn-primary text-white" style="cursor:pointer; width=100px;">View Details</a>
+                            
+                    </div>`;
+                }
+            }
         ],
         "language": {
             "emptyTable": "no data found."
