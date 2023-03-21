@@ -1,7 +1,7 @@
 ﻿@page
 @model WebAppToys.Pages.Admin.Listings.UpsertModel
 
-<form method="post" asp-action="Upsert">
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
     <div class="container">
         <div class="row px-2 mx-2 backgroundwhite border">
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -33,7 +33,7 @@
                         <label asp-for="ListingObj.Image"></label>
                     </div>
                     <div class="col-9">
-                        <input type="file" asp-for="ListingObj.Image" class="form-control-file" />
+                        <input type="file" id="uploadImgBox" class="form-control" name="files" asp-for="ListingObj.Image" onchange="ImageSizeCheck()" accept="image/*" />
                         <span class="text-danger" asp-validation-for="ListingObj.Image"></span>
                     </div>
                 </div>

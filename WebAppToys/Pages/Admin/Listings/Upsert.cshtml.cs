@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Hosting;
+
 
 namespace WebAppToys.Pages.Admin.Listings
 {
@@ -22,10 +24,13 @@ namespace WebAppToys.Pages.Admin.Listings
 
         public IEnumerable<SelectListItem> CategoryList { get; set; }
 
-        public UpsertModel(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public UpsertModel(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult OnGet(int? id)
@@ -39,7 +44,7 @@ namespace WebAppToys.Pages.Admin.Listings
                     return NotFound();
                 }
             }
-
+            
             if (id != null) //edit mode and will track changes (true)
             {
                 ListingObj = _unitOfWork.Listing.Get(u => u.Id == id, true); //keeps track of changes
@@ -59,38 +64,108 @@ namespace WebAppToys.Pages.Admin.Listings
             return Page(); //assume in insert mode
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return Page();
-            //}
+            // get the path to for wwwroot
+            string webRootPath = _webHostEnvironment.WebRootPath;
+
+            // pulls files from form request
+            var files = HttpContext.Request.Form.Files;
 
             ListingObj.Status = "Listed";
 
-            // Set user ID to current user ID
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user != null)
             {
                 ListingObj.User_Id = user.Id.ToString();
             }
 
-            // if new
+            // Create new ListingObj
             if (ListingObj.Id == 0)
             {
+                // was there an image submitted with the form
+                if (files.Count > 0)
+                {
+                    // create a unique identifier for the image name
+                    string fileName = Guid.NewGuid().ToString();
+
+                    // create variable to hold path to images/ListingObjs subfolder
+                    var uploads = Path.Combine(webRootPath, @"images\");
+
+                    // get and preserve file extension type
+                    var extension = Path.GetExtension(files[0].FileName);
+
+                    // create the complete full path string
+                    var fullPath = uploads + fileName + extension;
+
+                    // upload file binary
+                    using var fileStream = System.IO.File.Create(fullPath);
+                    files[0].CopyTo(fileStream);
+
+                    // associate image to the ListingObj object
+                    ListingObj.Image = @"\images\" + fileName + extension;
+                }
+
+                // add the new menu item to the database
                 _unitOfWork.Listing.Add(ListingObj);
             }
 
+            // Update to existing ListingObj
             else
             {
+                // Get the original ListingObj form the database (since tracking and binding is on)
+                var objFromDb = _unitOfWork.Listing.Get(m => m.Id == id, true);
+
+                // was there an image submitted with the form
+                if (files.Count > 0)
+                {
+                    // create a unique identifier for the image name
+                    string fileName = Guid.NewGuid().ToString();
+
+                    // create variable to hold path to images/ListingObjs subfolder
+                    var uploads = Path.Combine(webRootPath, @"images\");
+
+                    // get and preserve file extension type
+                    var extension = Path.GetExtension(files[0].FileName);
+
+                    // if item in db already has an image
+                    var imagePath = Path.Combine(webRootPath, objFromDb.Image.TrimStart('\\'));
+
+                    //if the image exists then physically delete the image
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        System.IO.File.Delete(imagePath);
+                    }
+
+                    // create the complete full path string
+                    var fullPath = uploads + fileName + extension;
+
+                    // upload file binary
+                    using var fileStream = System.IO.File.Create(fullPath);
+                    files[0].CopyTo(fileStream);
+
+                    // associate image to the ListingObj object
+                    ListingObj.Image = @"\images\" + fileName + extension;
+                }
+
+                // no image uploded with form
+                else
+                {
+                    // add image from the existing item to the item we're updating
+                    ListingObj.Image = objFromDb.Image;
+
+                }
+
+                // update the existing item
                 _unitOfWork.Listing.Update(ListingObj);
+
+                // save changes to database
+                _unitOfWork.Commit();
             }
 
-            
-
-
-            _unitOfWork.Commit();
+            // redirect to ListingObjs page
             return RedirectToPage("./Index");
+
         }
 
     }
