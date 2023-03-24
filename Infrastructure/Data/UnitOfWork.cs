@@ -16,6 +16,7 @@ namespace Infrastructure.Data
         private IGenericRepository<Category> _Category;
         private IGenericRepository<Listing> _Listing;
         private IGenericRepository<ApplicationUser> _ApplicationUser;
+        private IGenericRepository<Bids> _Bids;
 
         public IGenericRepository<Category> Category
         {
@@ -53,6 +54,19 @@ namespace Infrastructure.Data
                 }
 
                 return _ApplicationUser;
+            }
+        }
+
+        public IGenericRepository<Bids> Bids
+        {
+            get
+            {
+                if (_Bids == null)
+                {
+                    _Bids = new GenericRepository<Bids>(_dbContext);
+                }
+
+                return _Bids;
             }
         }
 

@@ -12,6 +12,7 @@ namespace ApplicationCore.Interfaces
         public IGenericRepository<Category> Category { get; }
         public IGenericRepository<Listing> Listing { get; }
         public IGenericRepository<ApplicationUser> ApplicationUser { get; }
+        public IGenericRepository<Bids> Bids { get; }
 
         // save changes to the data source
         int Commit();

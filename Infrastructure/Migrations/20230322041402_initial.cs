@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,6 +56,23 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Bids",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(name: "User_Id", type: "nvarchar(max)", nullable: false),
+                    ListingId = table.Column<int>(name: "Listing_Id", type: "int", nullable: false),
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    TradeId = table.Column<int>(name: "Trade_Id", type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bids", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Category",
                 columns: table => new
                 {
@@ -77,7 +96,7 @@ namespace Infrastructure.Migrations
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<int>(name: "Category_Id", type: "int", nullable: false),
-                    UserId = table.Column<int>(name: "User_Id", type: "int", nullable: false)
+                    UserId = table.Column<string>(name: "User_Id", type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -190,6 +209,25 @@ namespace Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "4521cd22-d23f-40b8-b781-2902e32d6344", null, "Admin", "ADMIN" },
+                    { "4521cd22-d23f-40b8-b781-2902e32d6345", null, "User", "USER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "b9c8bcd4-2819-4584-bdfb-9d1b03056026", 0, "7181685b-b600-4614-a83e-28949cf5feb1", "ApplicationUser", "Admin@Admin.com", false, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAIAAYagAAAAEHbuLoAgSeu0slmYD7G9fKJWFJT4njD+cKmGs6W1Y0+AmkNk/DjPgY0nqf9tbylevQ==", null, false, "ab80c941-e566-444b-8627-8c0a76d9fd99", false, "Admin@Admin.com" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "4521cd22-d23f-40b8-b781-2902e32d6344", "b9c8bcd4-2819-4584-bdfb-9d1b03056026" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -247,6 +285,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Bids");
 
             migrationBuilder.DropTable(
                 name: "Category");

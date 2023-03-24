@@ -22,6 +22,36 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ApplicationCore.Models.Bids", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Listing_Id")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Trade_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bids");
+                });
+
             modelBuilder.Entity("ApplicationCore.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -98,6 +128,20 @@ namespace Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "4521cd22-d23f-40b8-b781-2902e32d6344",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "4521cd22-d23f-40b8-b781-2902e32d6345",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -258,6 +302,13 @@ namespace Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "b9c8bcd4-2819-4584-bdfb-9d1b03056026",
+                            RoleId = "4521cd22-d23f-40b8-b781-2902e32d6344"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -292,6 +343,26 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "b9c8bcd4-2819-4584-bdfb-9d1b03056026",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7181685b-b600-4614-a83e-28949cf5feb1",
+                            Email = "Admin@Admin.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHbuLoAgSeu0slmYD7G9fKJWFJT4njD+cKmGs6W1Y0+AmkNk/DjPgY0nqf9tbylevQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ab80c941-e566-444b-8627-8c0a76d9fd99",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin@Admin.com",
+                            FirstName = "Admin",
+                            LastName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

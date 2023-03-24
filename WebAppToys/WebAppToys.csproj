@@ -25,11 +25,8 @@
     <None Remove="Pages\Admin\Users\" />
     <None Remove="Pages\Customer\" />
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
+    <None Remove="Pages\Customer\Bid\" />
   </ItemGroup>
-  <ItemGroup>
-    <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2" />
@@ -50,6 +47,7 @@
     <Folder Include="Pages\Admin\Users\" />
     <Folder Include="Pages\Customer\" />
     <Folder Include="wwwroot\images\" />
+    <Folder Include="Pages\Customer\Bid\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">

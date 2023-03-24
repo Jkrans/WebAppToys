@@ -9,7 +9,7 @@ namespace ApplicationCore.Models
         public int Id { get; set; }
    
         [Required]
-        public int User_Id { get; set; } // foreign key to user
+        public string User_Id { get; set; } // foreign key to user
 
         [Required]
         public int Listing_Id { get; set; } // foreign key to listing
