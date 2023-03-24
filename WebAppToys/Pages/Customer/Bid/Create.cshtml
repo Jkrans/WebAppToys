@@ -33,16 +33,19 @@
             </div>
             <div class="form-group">
                 <label asp-for="BidsObj.Trade_Id" class="control-label"></label>
-                <input asp-for="BidsObj.Trade_Id" class="form-control" />
+                <select asp-for="BidsObj.Trade_Id" asp-items="Model.UserListings" class="form-control">
+                    <option value="">-- Select a listing --</option>
+                </select>
                 <span asp-validation-for="BidsObj.Trade_Id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BidsObj.Status" class="control-label"></label>
-                <input asp-for="BidsObj.Status" class="form-control" />
+                <input type="hidden" asp-for="BidsObj.Status" />
+                <h4>@Model.BidsObj.Status</h4>
                 <span asp-validation-for="BidsObj.Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Place Bid" class="btn btn-primary" />
             </div>
         </form>
     </div>

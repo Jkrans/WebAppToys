@@ -12,10 +12,12 @@ namespace Infrastructure.Data
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly ApplicationDbContext _dbContext;
+        internal DbSet<T> dbSet;
 
         public GenericRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
+            this.dbSet = dbContext.Set<T>();
         }
         public void Add(T entity)
         {
@@ -66,6 +68,33 @@ namespace Infrastructure.Data
                 }
             }
 
+        }
+
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
+        {
+            IQueryable<T> query = dbSet;
+            if (query == null)
+            {
+                throw new InvalidOperationException("Query is null.");
+            }
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            // include properties will be comma seperated
+            if (includeProperties != null)
+            {
+                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+            if (orderBy != null)
+            {
+                return orderBy(query).ToList();
+            }
+            return query.ToList();
         }
 
         public virtual async Task<T> GetAsync(Expression<Func<T, bool>> predicate, bool asNoTracking = false, string includes = null)

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ApplicationCore.Models
 {
+
     public class Bids
     {
         [Key]
@@ -14,10 +15,10 @@ namespace ApplicationCore.Models
         [Required]
         public int Listing_Id { get; set; } // foreign key to listing
 
+        [Range(0, 10000, ErrorMessage = "Price must be a positive number.")]
         public float Price { get; set; } // bid price
 
-        [Required]
-        public int Trade_Id { get; set; } // foreign key to trade
+        public int? Trade_Id { get; set; } // foreign key to trade
 
         [Required]
         public string Status { get; set; } // status of the bid (e.g. accepted, rejected, pending)

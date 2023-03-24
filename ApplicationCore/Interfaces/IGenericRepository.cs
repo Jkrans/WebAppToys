@@ -46,7 +46,13 @@ namespace ApplicationCore.Interfaces
 
         //Update all changes in an object
         void Update(T entity);
-       
+
+        IEnumerable<T> GetAll(
+            Expression<Func<T, bool>> filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string includeProperties = null
+            );
+
     }
 }
 

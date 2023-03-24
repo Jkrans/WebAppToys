@@ -24,6 +24,9 @@ namespace _WebAppToys.Pages.Customer
         [BindProperty]
         public Bids BidsObj { get; set; } = new Bids();
 
+        public SelectList UserListings { get; set; }
+
+
         public async Task<IActionResult> OnGetAsync(int? listingId)
         {
             if (listingId == null)
@@ -32,15 +35,34 @@ namespace _WebAppToys.Pages.Customer
             }
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            if (user != null)
+            if (user == null)
             {
-                BidsObj.User_Id = user.Id.ToString();
+                return NotFound();
             }
 
+            BidsObj.User_Id = user.Id.ToString();
             BidsObj.Listing_Id = listingId.Value;
+            BidsObj.Status = "Submitted";
+
+            if (_unitOfWork.Listing == null)
+            {
+                throw new InvalidOperationException("UnitOfWork.Listing is null.");
+            }
+
+            var listings = _unitOfWork.Listing.GetAll(m => m.User_Id == user.Id);
+            if (listings == null)
+            {
+                Console.WriteLine($"No listings found for user {user.Id}.");
+                return NotFound();
+            }
+
+            Console.WriteLine($"Listings found for user {user.Id}: {listings.Count()}");
+
+            UserListings = new SelectList(listings, "Id", "Name");
 
             return Page();
         }
+
 
 
 
@@ -53,7 +75,7 @@ namespace _WebAppToys.Pages.Customer
             }
 
 
-
+            
 
 
             _unitOfWork.Bids.Add(BidsObj);

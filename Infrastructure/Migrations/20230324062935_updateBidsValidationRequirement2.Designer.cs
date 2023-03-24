@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230324062935_updateBidsValidationRequirement2")]
+    partial class updateBidsValidationRequirement2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +36,7 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Listing_Id")
                         .HasColumnType("int");
 
-                    b.Property<float>("Price")
+                    b.Property<float?>("Price")
                         .HasColumnType("real");
 
                     b.Property<string>("Status")
@@ -349,15 +352,15 @@ namespace Infrastructure.Migrations
                         {
                             Id = "b9c8bcd4-2819-4584-bdfb-9d1b03056026",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dd5e6b26-31ac-4f13-a1c0-4c08c9029dbd",
+                            ConcurrencyStamp = "a2a57b0a-b6c6-4375-90ea-12019097dd91",
                             Email = "Admin@Admin.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDN33bliUdiwqRvUBcrpF/LHG1+SzpJ3sNUeJuKaJSbbsdlAUYYJBR4bvTlfxG7KNw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGgT1J4tQFLK+Y/6X/dVnMSO3HtakofvrE3TKvSGGomokWxol/C+BWKWPVe+rIuQkQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "23fd60d6-b740-4c87-ab5c-c5382a552b94",
+                            SecurityStamp = "e8682013-6df5-4f81-b1b1-6426e123f057",
                             TwoFactorEnabled = false,
                             UserName = "Admin@Admin.com",
                             FirstName = "Admin",
