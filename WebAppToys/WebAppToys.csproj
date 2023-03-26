@@ -26,6 +26,7 @@
     <None Remove="Pages\Customer\" />
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
     <None Remove="Pages\Customer\Bid\" />
+    <None Remove="Pages\Customer\Trade\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.3" />
@@ -48,6 +49,7 @@
     <Folder Include="Pages\Customer\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="Pages\Customer\Bid\" />
+    <Folder Include="Pages\Customer\Trade\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">

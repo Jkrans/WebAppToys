@@ -14,6 +14,7 @@ namespace ApplicationCore.Models
         public string? Status { get; set; }
         public int Category_Id { get; set; } // foreign key to category
         public string User_Id { get; set; } // foreign key to user
+        public DateTime? ExpirationDate { get; set; }
     }
 }
 

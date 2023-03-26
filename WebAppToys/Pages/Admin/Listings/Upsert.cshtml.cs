@@ -73,6 +73,7 @@ namespace WebAppToys.Pages.Admin.Listings
             var files = HttpContext.Request.Form.Files;
 
             ListingObj.Status = "Listed";
+            ListingObj.ExpirationDate = DateTime.Now.AddDays(7);
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user != null)

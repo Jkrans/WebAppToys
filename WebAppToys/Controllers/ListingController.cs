@@ -17,7 +17,7 @@ namespace WebAppToys.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Json(new { data = _unitOfWork.Listing.List() });
+            return Json(new { data = _unitOfWork.Listing.List().Where(listing => listing.ExpirationDate > DateTime.Now) });
         }
 
         [HttpDelete("{id}")]
