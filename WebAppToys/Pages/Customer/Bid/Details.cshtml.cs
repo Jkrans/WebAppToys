@@ -6,37 +6,49 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ApplicationCore.Models;
+using ApplicationCore.Interfaces;
 
 namespace WebAppToys.Pages.Customer
 {
     public class DetailsModel : PageModel
     {
-      //  private readonly IdentityDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-      //  public DetailsModel(IdentityDbContext context)
-      //  {
-      //      _context = context;
-      //  }
+        public DetailsModel(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
 
-      //public Bids Bids { get; set; } = default!; 
+        public Bids BidsObj { get; set; } = default!;
+        public Listing ListingObj { get; set; } = default!;
 
-      //  public async Task<IActionResult> OnGetAsync(int? id)
-      //  {
-      //      if (id == null || _context.Bids == null)
-      //      {
-      //          return NotFound();
-      //      }
+        public async Task<IActionResult> OnGetAsync(int? id)
+        {
+            if (id == null || _unitOfWork.Bids == null)
+            {
+                return NotFound();
+            }
 
-      //      var bids = await _context.Bids.FirstOrDefaultAsync(m => m.Id == id);
-      //      if (bids == null)
-      //      {
-      //          return NotFound();
-      //      }
-      //      else 
-      //      {
-      //          Bids = bids;
-      //      }
-      //      return Page();
-      //  }
+            var bids = _unitOfWork.Bids.Get(m => m.Id == id);
+            if (bids == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                BidsObj = bids;
+            }
+
+            var listing = _unitOfWork.Listing.Get(l => l.Id == BidsObj.Listing_Id);
+            if (listing == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                ListingObj = listing;
+            }
+            return Page();
+        }
     }
 }
