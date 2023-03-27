@@ -30,7 +30,7 @@
     //if the listing belongs to the user who is logged in, let them edit.
 
     <a class="btn btn-warning" asp-page="./Upsert" asp-route-id="@Model.ListingObj.Id">Edit</a>
-    <a class="btn btn-warning" asp-page="./Upsert" asp-route-id="@Model.ListingObj.Id">View Offers</a>
+    <a class="btn btn-warning" asp-page="/Customer/Trade/BidsForListing" asp-route-listingId="@Model.ListingObj.Id">View Offers</a>
 }
 
 <a class="btn btn-primary" asp-page="./Index">Back to List</a>

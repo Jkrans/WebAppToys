@@ -1,0 +1,31 @@
+﻿@page
+@model _WebAppToys.Pages.Customer.Trade.BidsForListingModel
+@{
+    ViewData["Title"] = "Bids for Listing";
+}
+
+<h2>Bids for Listing @Model.ListingId</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Bid Price</th>
+            <th>Listing ID</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bid in Model.Bids)
+        {
+            <tr>
+                <td>$@bid.Price</td>
+                <td>@bid.Trade_Id</td>
+                <td>
+                    <button class="btn btn-success">Accept</button>
+                    <button class="btn btn-danger">Decline</button>
+                    <button class="btn btn-warning">Counter</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
