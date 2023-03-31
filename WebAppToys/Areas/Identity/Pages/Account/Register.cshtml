@@ -3,58 +3,63 @@
 @using Infrastructure.Utility
 
 @{ ViewData["Title"] = "Register"; }
-<div class="py-4 my-4">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row form-group">
-        <div class="col-8 offset-2">
-            <div class="card">
-                <div class="card-body px-lg-5 pt-4">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 ">
+            <div class="card p-4 my-5  bg-light bg-transparent border-0">
+                <div class="semi-transparent shadow">
                     <form method="post" autocomplete="off" asp-route-returnUrl="@Model.ReturnUrl">
-                        <h3 class="col-12 text-success text-center py-4">
+                        <h1 class="text-center mb-4">
                             @if (User.IsInRole(SD.AdminRole))
                             {
-                                <strong>Register an Employee</strong> }
+                                <span>Register an Employee</span>
+                            }
                             else
                             {
-                                <strong>Sign Up</strong>}
-                        </h3>
+                                <span>Sign Up</span>
+                            }
+                        </h1>
                         <hr />
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                        <div class="py-2">
-                            <div>
-                                <input type="text" asp-for="Input.FirstName" autocomplete="off" placeholder="First Name" class="form-control" />
-                                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-                            </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" asp-for="Input.FirstName" autocomplete="off" placeholder="First Name" class="form-control" />
+                            <label asp-for="Input.FirstName" class="form-label">First Name</label>
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                         </div>
-                        <div class="py-2">
-                            <div>
-                                <input type="text" asp-for="Input.LastName" autocomplete="off" placeholder="Last Name" class="form-control" />
-                                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-                            </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" asp-for="Input.LastName" autocomplete="off" placeholder="Last Name" class="form-control" />
+                            <label asp-for="Input.LastName" class="form-label">Last Name</label>
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
                         </div>
-
-                        <div class="py-2">
+                        <div class="form-floating mb-3">
                             <input type="email" asp-for="Input.Email" autocomplete="off" placeholder="Email" class="form-control" />
+                            <label asp-for="Input.Email" class="form-label">Email</label>
                             <span asp-validation-for="Input.Email" class="text-danger"></span>
                         </div>
-
-                        <div class="py-2">
+                        <div class="form-floating mb-3">
                             <input type="password" asp-for="Input.Password" autocomplete="off" placeholder="Password" class="form-control" />
+                            <label asp-for="Input.Password" class="form-label">Password</label>
                             <span asp-validation-for="Input.Password" class="text-danger"></span>
                         </div>
-                        <div class="py-2">
-                            <input type="password" asp-for="Input.ConfirmPassword" autocomplete="off" placeholder="ConfirmPassword" class="form-control" />
+                        <div class="form-floating mb-3">
+                            <input type="password" asp-for="Input.ConfirmPassword" autocomplete="off" placeholder="Confirm Password" class="form-control" />
+                            <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
                             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                         </div>
                         @if (User.IsInRole(SD.AdminRole))
                         {
-                            <div class="py-2">
-                                <input type="radio" name="rdUserRole" value="@SD.AdminRole" /> @SD.AdminRole
-                                <input type="radio" name="rdUserRole" value="@SD.UserRole" /> @SD.UserRole
-
-                            </div>}
-                        <div class="py-2">
-                            <button type="submit" class="btn btn-success form-control">Register</button>
+                            <div class="form-check form-check-inline mb-3">
+                                <input class="form-check-input" type="radio" name="rdUserRole" value="@SD.AdminRole" />
+                                <label class="form-check-label" for="rdUserRole">@SD.AdminRole</label>
+                            </div>
+                            <div class="form-check form-check-inline mb-3">
+                                <input class="form-check-input" type="radio" name="rdUserRole" value="@SD.UserRole" />
+                                <label class="form-check-label" for="rdUserRole">@SD.UserRole</label>
+                            </div>
+                        }
+                        <div class="d-grid mb-3 mt-5">
+                            <button type="submit" class="btn btn-primary">Register</button>
                         </div>
                     </form>
                 </div>

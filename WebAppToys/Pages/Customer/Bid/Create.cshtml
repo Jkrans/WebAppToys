@@ -2,59 +2,47 @@
 @model _WebAppToys.Pages.Customer.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Bid";
 }
 
-<h1>Create</h1>
 
-<h4>Bids</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="BidsObj.User_Id" class="control-label"></label>
-                <h4>@Model.BidsObj.User_Id</h4>
-                <input type="hidden" asp-for="BidsObj.User_Id" />
-                
-                <span asp-validation-for="BidsObj.User_Id" class="text-danger"></span>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card shadow">
+                    <div class="card-header bg-warning text-white">
+                        <h4>Place Bid For @Model.ListingObj.Name</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <input type="hidden" asp-for="BidsObj.User_Id" />
+                            <input type="hidden" asp-for="BidsObj.Listing_Id" />
+                            <input type="hidden" asp-for="BidsObj.Status" />
+
+                            <div class="form-group">
+                                <label asp-for="BidsObj.Price" class="control-label"></label>
+                                <input asp-for="BidsObj.Price" class="form-control" placeholder="Enter bid price" />
+                                <span asp-validation-for="BidsObj.Price" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label asp-for="BidsObj.Trade_Id" class="control-label"></label>
+                                <select asp-for="BidsObj.Trade_Id" asp-items="Model.UserListings" class="form-control">
+                                    <option value="">-- Select a listing --</option>
+                                </select>
+                                <span asp-validation-for="BidsObj.Trade_Id" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mt-4">
+                                <input type="submit" value="Place Bid" class="btn btn-primary" />
+                                <a class="btn btn-outline-primary" asp-page="Index">Back to List</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="BidsObj.Listing_Id" class="control-label"></label>
-                <h4>@Model.BidsObj.Listing_Id</h4>
-                <input type="hidden" asp-for="BidsObj.Listing_Id" />
-                <span asp-validation-for="BidsObj.Listing_Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BidsObj.Price" class="control-label"></label>
-                <input asp-for="BidsObj.Price" class="form-control" />
-                <span asp-validation-for="BidsObj.Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BidsObj.Trade_Id" class="control-label"></label>
-                <select asp-for="BidsObj.Trade_Id" asp-items="Model.UserListings" class="form-control">
-                    <option value="">-- Select a listing --</option>
-                </select>
-                <span asp-validation-for="BidsObj.Trade_Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BidsObj.Status" class="control-label"></label>
-                <input type="hidden" asp-for="BidsObj.Status" />
-                <h4>@Model.BidsObj.Status</h4>
-                <span asp-validation-for="BidsObj.Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Place Bid" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

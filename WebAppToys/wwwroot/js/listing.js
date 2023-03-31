@@ -14,27 +14,32 @@ function loadList() {
         "columns": [
             { data: "name", width: "55%" },
             { data: "user_Id", visible: false },
-            
+
             {
                 data: "id", width: "45%",
                 "render": function (data) {
                     return `<div class="text-center">
                             <a href="./Listings/Upsert?id=${data}"
-                            class ="btn btn-success text-white" style="cursor:pointer; width=100px;"> <i class="far fa-edit"></i>Edit</a>
+                            class ="btn btn-success text-white" style="cursor:pointer; width:100px; margin-right: 5px;"> <i class="far fa-edit"></i> Edit</a>
                             <a href="./Listings/details?id=${data}"
-                            class ="btn btn-primary text-white" style="cursor:pointer; width=100px;">View Details</a>
+                            class ="btn btn-primary text-white" style="cursor:pointer; width:100px; margin-right: 5px;"> View Details</a>
                             <a onClick=Delete('/api/listing/'+${data})
-                            class ="btn btn-danger text-white" style="cursor:pointer; width=100px;"> <i class="far fa-trash-alt"></i>Delete</a>
+                            class ="btn btn-danger text-white" style="cursor:pointer; width:100px;"> <i class="far fa-trash-alt"></i> Delete</a>
                     </div>`;
                 }
             }
         ],
         "language": {
-            "emptyTable": "no data found."
+            "emptyTable": "No data found."
         },
-        "width": "100%"
+        "width": "100%",
+        "order": [[0, "asc"]],
+        "createdRow": function (row, data, dataIndex) {
+            $(row).addClass('align-middle');
+        }
     });
 };
+
 
 
 function Delete(url) {

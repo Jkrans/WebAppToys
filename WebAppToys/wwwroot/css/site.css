@@ -108,7 +108,12 @@ body {
 
 
 
-
+body {
+    background-image: url('/toybackground.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
 
 
 #logreg-forms {

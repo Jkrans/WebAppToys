@@ -19,7 +19,6 @@
                     <i class="fas fa-plus"></i>&nbsp;Create New
                 </a>
             }
-
         </div>
     </div>
     <div class="row mt-3">
@@ -27,24 +26,24 @@
             <button id="toggle-filter" class="btn btn-outline-primary">Show My Listings</button>
         </div>
     </div>
-    </br></br>
+    <br>
 </div>
-<table id="DT_load" class="table table-striped table-bordered" style="width:100%;">
-    <thead>
-        <tr>
-            <th>
-                Toy Name
-            </th>
-            <th>
-                
-            </th>
+<div class="container">
+    <div class="table-responsive">
+        <table id="DT_load" class="table table-striped table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>
+                        Toy Name
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
 
-
-            <th></th>
-        </tr>
-    </thead>
-
-</table>
 @section Scripts{
     @if (User.IsInRole(SD.UserRole) || User.IsInRole(SD.AdminRole))
     {

@@ -6,38 +6,40 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>@Model.ListingObj.Name</h1>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2>@Model.ListingObj.Name</h2>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Description</dt>
+                        <dd class="col-sm-9">@Model.ListingObj.Description</dd>
+                        <dt class="col-sm-3">Image</dt>
+                        <dd class="col-sm-9">
+                            <img src="@Model.ListingObj.Image" alt="Photo of item listed" class="img-fluid" style="max-width: 500px;" />
+                        </dd>
+                    </dl>
+                    <div class="d-flex justify-content-end">
+                        @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.NameIdentifier) == @Model.ListingObj.User_Id)
+                        {
+                            // if the listing belongs to the user who is logged in, let them edit.
+                            <a class="btn btn-warning me-2" asp-page="./Upsert" asp-route-id="@Model.ListingObj.Id">Edit</a>
+                            <a class="btn btn-warning me-2" asp-page="/Customer/Trade/BidsForListing" asp-route-listingId="@Model.ListingObj.Id">View Offers</a>
+                        }
 
-<div>
-    <dl>
-        <dt>Description</dt>
-        <dd>@Model.ListingObj.Description</dd>
-        <dt>Image</dt>
-        <dd>@Model.ListingObj.Image</dd>
-        <dd><img src="@Model.ListingObj.Image" alt="Photo of item listed" style="width: 500px;" /></dd>
-        <dt>Status</dt>
-        <dd>@Model.ListingObj.Status</dd>
-        <dt>User ID</dt>
-        <dd>@Model.ListingObj.User_Id</dd>
+                        <a class="btn btn-primary me-2" asp-page="./Index">Back to List</a>
 
-
-    </dl>
+                        @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.NameIdentifier) != @Model.ListingObj.User_Id)
+                        {
+                            // if user is logged in and not the owner of the listing, show the Bid button
+                            <a class="btn btn-primary" asp-page="/Customer/Bid/Create" asp-route-listingId="@Model.ListingObj.Id">Bid</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-@if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.NameIdentifier) == @Model.ListingObj.User_Id)
-{
-    //if the listing belongs to the user who is logged in, let them edit.
-
-    <a class="btn btn-warning" asp-page="./Upsert" asp-route-id="@Model.ListingObj.Id">Edit</a>
-    <a class="btn btn-warning" asp-page="/Customer/Trade/BidsForListing" asp-route-listingId="@Model.ListingObj.Id">View Offers</a>
-}
-
-<a class="btn btn-primary" asp-page="./Index">Back to List</a>
-
-@if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.NameIdentifier) != @Model.ListingObj.User_Id)
-{
-    // if user is logged in and not the owner of the listing, show the Bid button
-    <a class="btn btn-primary" asp-page="/Customer/Bid/Create" asp-route-listingId="@Model.ListingObj.Id">Bid</a>
-}
-

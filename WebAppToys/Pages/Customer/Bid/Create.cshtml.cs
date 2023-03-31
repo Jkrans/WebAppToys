@@ -23,6 +23,7 @@ namespace _WebAppToys.Pages.Customer
         }
         [BindProperty]
         public Bids BidsObj { get; set; } = new Bids();
+        public Listing ListingObj { get; set; }
 
         public SelectList UserListings { get; set; }
 
@@ -43,6 +44,15 @@ namespace _WebAppToys.Pages.Customer
             BidsObj.User_Id = user.Id.ToString();
             BidsObj.Listing_Id = listingId.Value;
             BidsObj.Status = "Submitted";
+
+            // Get the Listing object using the listingId
+            ListingObj = _unitOfWork.Listing.Get(m => m.Id == listingId.Value);
+
+            if (ListingObj == null)
+            {
+                return NotFound();
+            }
+
 
             if (_unitOfWork.Listing == null)
             {
