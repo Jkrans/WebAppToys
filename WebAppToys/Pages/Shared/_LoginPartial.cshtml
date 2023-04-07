@@ -10,7 +10,7 @@
             if (User.Identity.IsAuthenticated)
             {
                 var user = await UserManager.GetUserAsync(User);
-                return user.FirstName; 
+                return user.FirstName;
             }
             return "";
         }
@@ -22,9 +22,12 @@
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                <button type="submit" class="nav-link btn btn-link text-dark">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
             </form>
         </li>
+
     }
     else
     {

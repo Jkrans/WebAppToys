@@ -9,17 +9,18 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <div class="card shadow">
+            <div class="card shadow border-0">
                 <div class="card-header bg-primary text-white">
                     <h2>@Model.ListingObj.Name</h2>
                 </div>
-                <div class="card-body">
+                <div class="card-body"> 
                     <dl class="row">
-                        <dt class="col-sm-3">Description</dt>
-                        <dd class="col-sm-9">@Model.ListingObj.Description</dd>
-                        <dt class="col-sm-3">Image</dt>
-                        <dd class="col-sm-9">
-                            <img src="@Model.ListingObj.Image" alt="Photo of item listed" class="img-fluid" style="max-width: 500px;" />
+                        <dt class="col-sm-3">Description:</dt>
+                        <dd class="">@Model.ListingObj.Description</dd>
+                        
+                        <dd class=" d-flex justify-content-center">
+                            <!--<img src="@Model.ListingObj.Image" alt="Photo of item listed" class="img-fluid" style="max-width: 500px;" />-->
+                            <img src="~/dinosaur-lego.jpeg" alt="Photo of item listed" class="img-fluid" style="max-width: 500px;" />
                         </dd>
                     </dl>
                     <div class="d-flex justify-content-end">

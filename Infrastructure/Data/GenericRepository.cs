@@ -97,6 +97,24 @@ namespace Infrastructure.Data
             return query.ToList();
         }
 
+        public T GetFirstOrDefault(Expression<Func<T, bool>> filter = null, string includeProperties = null)
+        {
+            IQueryable<T> query = dbSet;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (includeProperties != null)
+            {
+                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+
+            return query.FirstOrDefault();
+        }
         public virtual async Task<T> GetAsync(Expression<Func<T, bool>> predicate, bool asNoTracking = false, string includes = null)
         {
             if (includes == null) //There are no tables to join

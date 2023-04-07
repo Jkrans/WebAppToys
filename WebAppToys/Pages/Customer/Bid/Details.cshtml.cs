@@ -21,6 +21,7 @@ namespace WebAppToys.Pages.Customer
 
         public Bids BidsObj { get; set; } = default!;
         public Listing ListingObj { get; set; } = default!;
+        public Listing TradeObj { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -47,6 +48,17 @@ namespace WebAppToys.Pages.Customer
             else
             {
                 ListingObj = listing;
+            }
+            return Page();
+
+            var trade = _unitOfWork.Listing.Get(l => l.Id == BidsObj.Trade_Id);
+            if (trade == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                TradeObj = trade;
             }
             return Page();
         }

@@ -7,70 +7,98 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ApplicationCore.Models;
+using ApplicationCore.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace _WebAppToys.Pages.Customer
 {
     public class EditModel : PageModel
     {
-    //    private readonly IdentityDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-    //    public EditModel(IdentityDbContext context)
-    //    {
-    //        _context = context;
-    //    }
+        public EditModel(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
+        {
+            _unitOfWork = unitOfWork;
+            _userManager = userManager;
+        }
 
-    //    [BindProperty]
-    //    public Bids BidsObj { get; set; } = default!;
 
-    //    public async Task<IActionResult> OnGetAsync(int? id)
-    //    {
-    //        if (id == null || _context.Bids == null)
-    //        {
-    //            return NotFound();
-    //        }
+        [BindProperty]
+        public Bids BidsObj { get; set; } = default!;
 
-    //        var bids = await _context.Bids.FirstOrDefaultAsync(m => m.Id == id);
-    //        if (bids == null)
-    //        {
-    //            return NotFound();
-    //        }
-    //        BidsObj = bids;
-    //        return Page();
-    //    }
+        public SelectList UserListings { get; set; }
 
-    //    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    //    // For more details, see https://aka.ms/RazorPagesCRUD.
-    //    public async Task<IActionResult> OnPostAsync()
-    //    {
-    //        if (!ModelState.IsValid)
-    //        {
-    //            return Page();
-    //        }
+        public async Task<IActionResult> OnGetAsync(int? id)
+        {
+            if (id == null || _unitOfWork.Bids == null)
+            {
+                return NotFound();
+            }
 
-    //        _context.Attach(BidsObj).State = EntityState.Modified;
+            var bids = _unitOfWork.Bids.GetFirstOrDefault(m => m.Id == id);
+            if (bids == null)
+            {
+                return NotFound();
+            }
+            BidsObj = bids;
 
-    //        try
-    //        {
-    //            await _context.SaveChangesAsync();
-    //        }
-    //        catch (DbUpdateConcurrencyException)
-    //        {
-    //            if (!BidsExists(BidsObj.Id))
-    //            {
-    //                return NotFound();
-    //            }
-    //            else
-    //            {
-    //                throw;
-    //            }
-    //        }
+            // Get the user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-    //        return RedirectToPage("./Index");
-    //    }
+            // Get user listings
+            var listings = _unitOfWork.Listing.GetAll(m => m.User_Id == user.Id);
+            if (listings == null)
+            {
+                Console.WriteLine($"No listings found for user {user.Id}.");
+                return NotFound();
+            }
 
-    //    private bool BidsExists(int id)
-    //    {
-    //        return (_context.Bids?.Any(e => e.Id == id)).GetValueOrDefault();
-    //    }
+            // Create SelectList for UserListings
+            UserListings = new SelectList(listings, "Id", "Name");
+
+            return Page();
+        }
+
+        
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            _unitOfWork.Bids.Update(BidsObj);
+
+
+            try
+            {
+                _unitOfWork.Commit();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BidsExists(BidsObj.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToPage("./Details", new { Id = BidsObj.Id });
+
+        }
+
+        private bool BidsExists(int id)
+        {
+            return _unitOfWork.Bids.GetFirstOrDefault(e => e.Id == id) != null;
+        }
+
     }
 }
