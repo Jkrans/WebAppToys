@@ -84,10 +84,6 @@ namespace _WebAppToys.Pages.Customer
                 return Page();
             }
 
-
-            
-
-
             _unitOfWork.Bids.Add(BidsObj);
             _unitOfWork.Commit();
 

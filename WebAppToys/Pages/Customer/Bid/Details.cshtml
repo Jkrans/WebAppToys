@@ -1,78 +1,99 @@
 @page
 @model WebAppToys.Pages.Customer.DetailsModel
-
+@using System.Security.Claims
 @{
     ViewData["Title"] = "Details";
 }
 
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card bg-transparent border-0">
-                <div class="card-body semi-transparent">
-                    <h4 class="card-title">Listing Details: @Model.ListingObj.Name</h4>
-                    <hr />
-                    <dl class="row">
+    @if (User.Identity.IsAuthenticated &&
+        (User.FindFirstValue(ClaimTypes.NameIdentifier) == @Model.ListingObj.User_Id ||
+         User.FindFirstValue(ClaimTypes.NameIdentifier) == @Model.BidsObj.User_Id))
+    {
 
-                        <dt class="">
-                            @Html.DisplayNameFor(model => model.ListingObj.Description)
-                        </dt>
-                        <dd class="">
-                            @Html.DisplayFor(model => model.ListingObj.Description)
-                        </dd>
+        <div class="row">
+            <div class="col-md-6 d-flex">
+                <div class="card bg-transparent border-0 flex-fill">
+                    <div class="card-body semi-transparent ">
+                        <h4 class="card-title">Listing Details: @Model.ListingObj.Name</h4>
+                        <hr />
+                        <dl class="row">
 
-                        <dd class="d-flex justify-content-center">
-                            <!--<img src="@Model.ListingObj.Image" alt="Photo of item listed" class="img-fluid" style="max-width: 500px;" />-->
-                            <img src="~/dinosaur-lego.jpeg" alt="Photo of item listed" class="img-fluid rounded shadow" style="max-width: 400px;" />
-                        </dd>
-                    </dl>
+                            <dt class="">
+                                @Html.DisplayNameFor(model => model.ListingObj.Description)
+                            </dt>
+                            <dd class="">
+                                @Html.DisplayFor(model => model.ListingObj.Description)
+                            </dd>
+
+                            <dd class="d-flex justify-content-center">
+                                <!--<img src="@Model.ListingObj.Image" alt="Photo of item listed" class="img-fluid" style="max-width: 500px;" />-->
+                                <img src="~/dinosaur-lego.jpeg" alt="Photo of item listed" class="img-fluid rounded shadow" style="max-width: 400px;" />
+                            </dd>
+                        </dl>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card bg-transparent border-0">
-                <div class="card-body semi-transparent">
-                    <h4 class="card-title">Bid</h4>
-                    <hr />
-                    <dl class="row">
-                        
-                        
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.BidsObj.Listing_Id)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.BidsObj.Listing_Id)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.BidsObj.Price)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.BidsObj.Price)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.TradeObj.Description)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.TradeObj.Description)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.BidsObj.Status)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.BidsObj.Status)
-                        </dd>
-                        <div class="row mt-4">
-                            <div class="col-md-12 d-flex justify-content-end">
-                                <a asp-page="./Edit" asp-route-id="@Model.BidsObj?.Id" class="btn btn-primary">Edit Bid</a>
-                                <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+            <div class="col-md-6 d-flex">
+                <div class="card bg-transparent border-0 flex-fill">
+                    <div class="card-body semi-transparent">
+                        <h4 class="card-title">Bid: $@Model.BidsObj.Price and @Model.TradeObj.Name</h4>
+                        <hr />
+                        <dl class="row">
+                            @if (Model.BidsObj.Trade_Id != null)
+                            {
+                                <dt class="">
+                                    @Html.DisplayNameFor(model => model.TradeObj.Description)
+                                </dt>
+                                <dd class="">
+                                    @Html.DisplayFor(model => model.TradeObj.Description)
+                                </dd>
+                                <dd class="d-flex justify-content-center">
+                                    <!--<img src="@Model.TradeObj.Image" alt="Photo of item listed" class="img-fluid" style="max-width: 500px;" />-->
+                                    <img src="~/dinosaur-lego.jpeg" alt="Photo of item listed" class="img-fluid rounded shadow" style="max-width: 400px;" />
+                                </dd>
+                             }
+
+                            <dt class="">
+                                @Html.DisplayNameFor(model => model.BidsObj.Status)
+                            </dt>
+                            <dd class="">
+                                @Html.DisplayFor(model => model.BidsObj.Status)
+                            </dd>
+                            <div class="row mt-4">
+                                <div class="col-md-12 d-flex justify-content-end">
+                                    @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == @Model.ListingObj.User_Id)
+                                    {
+                                        <a asp-page="" asp-route-id="@Model.BidsObj?.Id" class="btn btn-success me-2">Accept</a>
+                                        <a asp-page="./Edit" asp-route-id="@Model.BidsObj?.Id" class="btn btn-primary me-2">Counter</a>
+                                        <a asp-page="" asp-route-id="@Model.BidsObj?.Id" class="btn btn-danger">Decline</a>
+                                    }
+                                    @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == @Model.BidsObj.User_Id)
+                                    {
+
+                                        <a asp-page="./Edit" asp-route-id="@Model.BidsObj?.Id" class="btn btn-primary me-2">Edit Offer</a>
+                                        <a asp-page="" asp-route-id="@Model.BidsObj?.Id" class="btn btn-danger">Withdraw</a>
+                                    }
+
+                                </div>
+
                             </div>
-                        </div>
-                    </dl>
+                        </dl>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+    }
+    else
+    {
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="alert alert-warning text-center col-5" role="alert">
+                <h1 class="text-center"><img class="pl-5" src="/access-denied.png" style="width:5em; " /></h1>
+                <p class="m-0">These are not the bids you're looking for</p>
+                <p class="m-0">Please log in or navigate to the appropriate bid details page.</p>
+            </div>
+        </div>
+    }
 </div>
 
 

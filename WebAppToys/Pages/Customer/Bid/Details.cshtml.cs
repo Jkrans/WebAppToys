@@ -49,7 +49,7 @@ namespace WebAppToys.Pages.Customer
             {
                 ListingObj = listing;
             }
-            return Page();
+            
 
             var trade = _unitOfWork.Listing.Get(l => l.Id == BidsObj.Trade_Id);
             if (trade == null)
