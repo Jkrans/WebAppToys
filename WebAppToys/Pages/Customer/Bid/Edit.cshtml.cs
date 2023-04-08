@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using ApplicationCore.Models;
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Infrastructure.Utility;
 
 namespace _WebAppToys.Pages.Customer
 {
@@ -43,6 +44,8 @@ namespace _WebAppToys.Pages.Customer
             }
             BidsObj = bids;
 
+            
+
             // Get the user
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -65,11 +68,21 @@ namespace _WebAppToys.Pages.Customer
         }
 
         
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string status = "")
         {
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+
+            // Checks what button was used to select edit and updates status
+            if (status == "BidCountered")
+            {
+                BidsObj.Status = Status.BidCountered;
+            }
+            else if (status == "BidSubmitted")
+            {
+                BidsObj.Status = Status.BidSubmitted;
             }
 
             _unitOfWork.Bids.Update(BidsObj);
@@ -90,6 +103,8 @@ namespace _WebAppToys.Pages.Customer
                     throw;
                 }
             }
+
+            
 
             return RedirectToPage("./Details", new { Id = BidsObj.Id });
 
