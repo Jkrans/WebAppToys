@@ -1,0 +1,27 @@
+﻿@page
+@model _WebAppToys.Pages.Customer.Bid.acceptedModel
+@{
+    ViewData["Title"] = "Congratulations!";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card semi-transparent">
+                <div class="text-dark">
+                    <h1 class="text-center m-0">@ViewData["Title"]</h1>
+                </div>
+                <div class="card-body">
+                    <p class="text-center">
+                        You have successfully agreed to swap <strong>TradeItem1</strong> for <strong>TradeItem2</strong> and <strong>$AmountOfMoney</strong>. You have both been emailed each other's contact info, so that you can coordinate your exchange.
+                    </p>                
+                    <h2 class="text-center font-weight-bold">
+                        Thank you for choosing<br /> Toy Swap Hub!
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

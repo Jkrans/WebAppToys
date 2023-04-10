@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using ApplicationCore.Models;
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Infrastructure.Utility;
 
 namespace _WebAppToys.Pages.Customer
 {
@@ -43,7 +44,7 @@ namespace _WebAppToys.Pages.Customer
 
             BidsObj.User_Id = user.Id.ToString();
             BidsObj.Listing_Id = listingId.Value;
-            BidsObj.Status = "Submitted";
+            BidsObj.Status = Status.BidSubmitted;
 
             // Get the Listing object using the listingId
             ListingObj = _unitOfWork.Listing.Get(m => m.Id == listingId.Value);

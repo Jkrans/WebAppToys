@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ApplicationCore.Models;
 using ApplicationCore.Interfaces;
+using Infrastructure.Utility;
 
 namespace WebAppToys.Pages.Customer
 {
@@ -61,6 +62,33 @@ namespace WebAppToys.Pages.Customer
                 TradeObj = trade;
             }
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(int? id,string status = "")
+        {
+            if (id == null || _unitOfWork.Bids == null)
+            {
+                return NotFound();
+            }
+
+            var bids = _unitOfWork.Bids.Get(m => m.Id == id);
+            if (bids == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                BidsObj = bids;
+            }
+
+            if (status == "BidAccepted")
+            {
+                BidsObj.Status = Status.BidAccepted;
+            }
+            _unitOfWork.Bids.Update(BidsObj);
+            _unitOfWork.Commit();
+
+            return RedirectToPage("./accepted");
         }
     }
 }
