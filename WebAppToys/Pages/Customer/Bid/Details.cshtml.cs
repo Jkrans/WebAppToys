@@ -61,6 +61,9 @@ namespace WebAppToys.Pages.Customer
             {
                 TradeObj = trade;
             }
+
+            TempData["UserId"] = BidsObj.User_Id;
+
             return Page();
         }
 

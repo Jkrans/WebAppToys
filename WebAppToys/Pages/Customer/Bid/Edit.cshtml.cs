@@ -29,9 +29,16 @@ namespace _WebAppToys.Pages.Customer
         public Bids BidsObj { get; set; } = default!;
 
         public SelectList UserListings { get; set; }
+        private string userId;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+
+            if (TempData["UserId"] != null)
+            {
+                userId = TempData["UserId"].ToString();                
+            }
+            
             if (id == null || _unitOfWork.Bids == null)
             {
                 return NotFound();
@@ -47,17 +54,17 @@ namespace _WebAppToys.Pages.Customer
             
 
             // Get the user
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            //var user = await _userManager.GetUserAsync(HttpContext.User);
+            //if (user == null)
+            //{
+            //    return NotFound();
+            //}
 
             // Get user listings
-            var listings = _unitOfWork.Listing.GetAll(m => m.User_Id == user.Id);
+            var listings = _unitOfWork.Listing.GetAll(m => m.User_Id == userId);
             if (listings == null)
             {
-                Console.WriteLine($"No listings found for user {user.Id}.");
+                Console.WriteLine($"No listings found for user {userId}.");
                 return NotFound();
             }
 
