@@ -7,67 +7,69 @@
     ViewData["Title"] = "Listings";
 }
 
-<div class="container p-3 col-6">
+<div class="container p-3 col-8">
     <div class="card bg-transparent shadow border-0">
         <div class="card-body semi-transparent">
             <div class="row">
                 <div class="col-6">
                     <h2 class="text-primary">Toy List</h2>
                 </div>
-                <div class="col-6 text-end">
-                    @if (User.IsInRole(SD.UserRole))
-                    {
-                        <a asp-page="Upsert" asp-route-id="0" class="btn btn-primary">
-                            <i class="fas fa-plus-circle"></i>&nbsp;Create New
-                        </a>
-                    }
-                </div>
+                
             </div>
             <div class="row mt-3">
-                <div class="col-6">
+                <div class="col-12 d-flex justify-content-between">
                     <a asp-page="./Index" asp-route-ShowMyListings="@(Model.ShowMyListings ? "false" : "true")" class="btn btn-outline-primary">
                         @(Model.ShowMyListings ? "Show All Listings" : "Show My Listings")
                     </a>
+                    @if (User.IsInRole(SD.UserRole))
+                    {
+                            <a asp-page="Upsert" asp-route-id="0" class="btn btn-primary text-end">
+                                <i class="fas fa-plus-circle"></i>&nbsp;Create New
+                            </a>
+                    }
                 </div>
             </div>
             <br>
         </div>
     </div>
 </div>
-<div class="container p-3 col-6">
-    <div class="card bg-transparent shadow border-0">
+<div class="container p-3 col-8">
+    <div class="card bg-transparent shadow border-0 mb-5">
         <div class="card-body semi-transparent">
             <div class="table-responsive">
-                <table id="" class="table " style="width:100%;">
-                    <thead class="">
-                        <tr>
-                            <th class="text-center">
-                                Toys
-                            </th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var toy in Model.ListingObj)
-                        {
-                            <tr>
-                                <td class="align-middle">
-                                    @toy.Name
-                                </td>
-                                <td>
-                                    <div class="d-flex justify-content-end ">
-                                        
-                                        <a asp-page="./Details" asp-route-id="@toy.Id"
-                                           class="btn btn-primary text-white" style="cursor: pointer; margin-right: 5px; white-space: nowrap;">
-                                            View Details
-                                        </a>
-                                        
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                <div class="container p-3">
+                    <div class="card bg-transparent border-0">
+
+                        <div class="d-flex flex-wrap justify-content-between">
+                            @foreach (var toy in Model.ListingObj)
+                            {
+                                var timerId = "timer-" + toy.Id;
+                                <div class="m-2 d-flex flex-column" style="width: 225px;">
+                                    <a asp-page="./Details" asp-route-id="@toy.Id" class="text-decoration-none shadow">
+                                        <div class="card w-100 h-100 p-2">
+                                            <!--<img src="@toy.Image" class="card-img-top" alt="@toy.Name" />-->
+                                            <img src="~/dinosaur-lego.jpeg" class="card-img-top" alt="@toy.Name" />
+                                            <div class="card-body">
+                                                <p class="card-title text-dark small">@toy.Name</p>
+                                                <p class="card-text small" id="@timerId">Loading...</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
             </div>
         </div>
     </div>
@@ -83,52 +85,41 @@
 
 
 
-        @section Scripts{
-            @if (User.IsInRole(SD.UserRole) || User.IsInRole(SD.AdminRole))
-            {
+@section Scripts {
+    <script>
+        function createCountdownTimer(elementId, expirationDate) {
+            var countDownDate = new Date(expirationDate).getTime();
+            var timerElement = document.getElementById(elementId);
 
-                <script>
-            $(document).ready(function () {
-                    var filter = $('#toggle-filter');
-                    var dataTable = $('#DT_load').DataTable();
-                    var userId = '@User.FindFirstValue(ClaimTypes.NameIdentifier)';
-                    var filterOn = false;
-                    filter.click(function () {
-                        filterOn = !filterOn;
-                        if (filterOn) {
-                            dataTable.columns(1).search(userId).draw();
-                            filter.html("Show All Listings");
-                        } else {
-                            dataTable.columns(1).search('').draw();
-                            filter.html("Show My Listings");
-                        }
-                    });
-                });
-                </script>
-                <script>function Delete(url) {
-                        swal({
-                            title: "Are you sure you want to delete this item?",
-                            text: "You will not be able to restore this data!",
-                            icon: "warning",
-                            buttons: [true, "Confirm Delete"], // multiple buttons e.g. cancel and ok buttons
-                            dangerMode: [true] // sets the default focus on the cancel button, so you don't accidentally delete something, etc.
-                        }).then((willDelete) => {
-                            if (willDelete) {
-                                $.ajax({
-                                    type: 'DELETE',
-                                    url: url,
-                                    success: function (data) {
-                                        if (data.success) {
-                                            toastr.success(data.message);
+            function updateTimer() {
+                var now = new Date().getTime();
+                var distance = countDownDate - now;
 
-                                        }
-                                        else
-                                            toastr.error(data.message);
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+                timerElement.innerHTML = "Exp: " + days + "d " + hours + "h " + minutes + "m ";
 
-                                    }
-                                })
-                            }
-                        })</script>
             }
+
+            // run once right when the page loads and then every minute from there
+            updateTimer(); 
+            var x = setInterval(updateTimer, 60 * 1000);
         }
+
+
+        // Initialize the timers for each listing
+        @foreach (var toy in Model.ListingObj)
+        {
+            var timerId = "timer-" + toy.Id;
+            var formattedDate = Json.Serialize(toy.ExpirationDate);
+            <text>
+                createCountdownTimer("@timerId", @formattedDate);
+            </text>
+        }
+    </script>
+}
+
+
