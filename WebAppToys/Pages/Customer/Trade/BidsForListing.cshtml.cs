@@ -20,15 +20,30 @@ namespace _WebAppToys.Pages.Customer.Trade
 
         public int ListingId { get; set; }
         public List<Bids> Bids { get; set; }
+        public Listing listingObj { get; set; }
+        public Dictionary<int, Listing> TradeListings { get; set; } = new Dictionary<int, Listing>();
 
         public IActionResult OnGet(int listingId)
         {
             ListingId = listingId;
-            Bids = _unitOfWork.Bids.List(b => b.Listing_Id == listingId).ToList();
+            var bids = _unitOfWork.Bids.List(b => b.Listing_Id == listingId).ToList();
 
-            if (Bids == null)
+            if (bids == null)
             {
                 return NotFound();
+            }
+            else
+            {
+                Bids = bids;
+            }
+
+            foreach (var bid in Bids)
+            {
+                var tradeListing = _unitOfWork.Listing.Get(m => m.Id == bid.Trade_Id);
+                if (tradeListing != null)
+                {
+                    TradeListings[bid.Trade_Id ?? 0] = tradeListing;
+                }
             }
 
             return Page();

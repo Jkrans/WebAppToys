@@ -9,9 +9,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Bid Price</th>
-            <th>Listing ID</th>
-            <th>Actions</th>
+            <th>Money Offer</th>
+            <th>Trade Item</th>
+            
         </tr>
     </thead>
     <tbody>
@@ -19,12 +19,8 @@
         {
             <tr>
                 <td>$@bid.Price</td>
-                <td>@bid.Trade_Id</td>
-                <td>
-                    <button class="btn btn-success">Accept</button>
-                    <button class="btn btn-danger">Decline</button>
-                    <button class="btn btn-warning">Counter</button>
-                </td>
+                <td>@Model.TradeListings[bid.Trade_Id ?? 0].Name</td>
+               
             </tr>
         }
     </tbody>

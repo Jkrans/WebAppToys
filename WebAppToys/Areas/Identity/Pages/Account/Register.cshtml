@@ -19,7 +19,7 @@
                                 <span>Sign Up</span>
                             }
                         </h1>
-                        <hr />
+
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                         <div class="form-floating mb-3">
@@ -58,8 +58,12 @@
                                 <label class="form-check-label" for="rdUserRole">@SD.UserRole</label>
                             </div>
                         }
-                        <div class="d-grid mb-3 mt-5">
-                            <button type="submit" class="btn btn-primary">Register</button>
+                        <div class="d-grid mb-3 mt-4">
+                            <button type="submit" class="btn-lg btn-primary">Register</button>
+                        </div>
+                        <div class="d-flex justify-content-center mt-5">
+                            <p class="me-2">Already have an account? </p>
+                            <a class="" asp-page="./Login">Sign In</a>
                         </div>
                     </form>
                 </div>
