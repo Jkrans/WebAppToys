@@ -38,6 +38,12 @@
                             // if user is logged in and not the owner of the listing, show the Bid button
                             <a class="btn btn-primary" asp-page="/Customer/Bid/Create" asp-route-listingId="@Model.ListingObj.Id">Bid</a>
                         }
+                        else
+                        {
+                            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Bid</a>
+
+
+                        }
                     </div>
                 </div>
             </div>
