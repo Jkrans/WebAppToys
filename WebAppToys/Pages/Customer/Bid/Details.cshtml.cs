@@ -101,11 +101,27 @@ namespace WebAppToys.Pages.Customer
                 ListingObj = listing;
             }
 
+            var trade = _unitOfWork.Listing.Get(l => l.Id == BidsObj.Trade_Id);
+            if (trade == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                TradeObj = trade;
+            }
+
+
             if (status == "BidAccepted")
             {
                 BidsObj.Status = Status.BidAccepted;
                 await SendNotificationEmails(ListingObj.User_Id, BidsObj.User_Id);
-                
+
+                TempData["ListingName"] = ListingObj.Name;
+                TempData["TradeName"] = TradeObj.Name;
+                TempData["BidPrice"] = BidsObj.Price.ToString("0.00");
+
+
             }
             _unitOfWork.Bids.Update(BidsObj);
             _unitOfWork.Commit();
@@ -124,7 +140,7 @@ namespace WebAppToys.Pages.Customer
                     await _emailSender.SendEmailAsync(
                         listingUser.Email,
                         "Swap Accepted!",
-                        $"<h2>Please contact {bidderUser.Email} to coordinate your swap in person!</br>Thank you for using Toy Swap Hub!</h2>"
+                        $"<h2>Please contact {bidderUser.Email} to coordinate your swap in person! Thank you for using Toy Swap Hub!</h2>"
                     );
                 }
 
@@ -133,7 +149,7 @@ namespace WebAppToys.Pages.Customer
                     await _emailSender.SendEmailAsync(
                         bidderUser.Email,
                         "Swap Accepted!",
-                        $"<h2>Please contact {listingUser.Email} to coordinate your swap in person!</br>Thank you for using Toy Swap Hub!</h2>"
+                        $"<h2>Please contact {listingUser.Email} to coordinate your swap in person! Thank you for using Toy Swap Hub!</h2>"
                     );
                 }
 

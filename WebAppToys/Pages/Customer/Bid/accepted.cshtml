@@ -2,6 +2,10 @@
 @model _WebAppToys.Pages.Customer.Bid.acceptedModel
 @{
     ViewData["Title"] = "Congratulations!";
+    string listingName = TempData["ListingName"] as string;
+    string tradeName = TempData["TradeName"] as string;
+    string bidPriceString = TempData["BidPrice"] as string;
+    float bidPrice = float.Parse(bidPriceString);
 }
 
 <div class="container mt-5">
@@ -13,8 +17,8 @@
                 </div>
                 <div class="card-body">
                     <p class="text-center">
-                        You have successfully agreed to swap <strong>TradeItem1</strong> for <strong>TradeItem2</strong> and <strong>$AmountOfMoney</strong>. You have both been emailed each other's contact info, so that you can coordinate your exchange.
-                    </p>                
+                        You have successfully agreed to swap <strong>@listingName</strong> for <strong>@tradeName</strong> and <strong>$@bidPriceString</strong>. You have both been emailed each other's contact info, so that you can coordinate your exchange.
+                    </p>
                     <h2 class="text-center font-weight-bold">
                         Thank you for choosing<br /> Toy Swap Hub!
                     </h2>
@@ -23,5 +27,6 @@
         </div>
     </div>
 </div>
+
 
 
