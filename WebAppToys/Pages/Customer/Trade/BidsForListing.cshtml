@@ -1,27 +1,31 @@
 ﻿@page
 @model _WebAppToys.Pages.Customer.Trade.BidsForListingModel
+@using Infrastructure.Utility
 @{
     ViewData["Title"] = "Bids for Listing";
 }
 
-<h2>Bids for Listing @Model.ListingId</h2>
+<h2 class="mb-4 text-light">Bids: </h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Money Offer</th>
-            <th>Trade Item</th>
-            
-        </tr>
-    </thead>
-    <tbody>
+<div class="container">
+    <div class="row">
         @foreach (var bid in Model.Bids)
         {
-            <tr>
-                <td>$@bid.Price</td>
-                <td>@Model.TradeListings[bid.Trade_Id ?? 0].Name</td>
-               
-            </tr>
+            @if (bid.Status != Status.BidDeclined)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 semi-transparent">
+                        <div class="card-body">
+                            <h5 class="card-title">Bid Amount: $@bid.Price</h5>
+                            <p class="card-text">Trade Item: @Model.TradeListings[bid.Trade_Id ?? 0].Name</p>
+                        </div>
+                        <div class="card-footer">
+                            <a class="btn btn-primary col-12" asp-page="/Customer/Bid/Details" asp-route-id="@bid.Id">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+
         }
-    </tbody>
-</table>
+    </div>
+</div>

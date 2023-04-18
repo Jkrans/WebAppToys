@@ -106,13 +106,13 @@
                 var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                timerElement.innerHTML = "Exp: " + days + "d " + hours + "h " + minutes + "m ";
+                timerElement.innerHTML = "Exp: " + days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
 
             }
 
             // run once right when the page loads and then every minute from there
             updateTimer();
-            var x = setInterval(updateTimer, 60 * 1000);
+            var x = setInterval(updateTimer, 1000);
         }
 
 

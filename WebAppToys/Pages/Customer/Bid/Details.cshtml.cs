@@ -123,6 +123,16 @@ namespace WebAppToys.Pages.Customer
 
 
             }
+            else if(status == "BidDeclined")
+            {
+                BidsObj.Status = Status.BidDeclined;
+                
+
+                _unitOfWork.Bids.Update(BidsObj);
+                _unitOfWork.Commit();
+                return RedirectToPage("./Index");
+
+            }
             _unitOfWork.Bids.Update(BidsObj);
             _unitOfWork.Commit();
 

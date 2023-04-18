@@ -26,7 +26,7 @@ namespace _WebAppToys.Pages.Customer.Trade
         public IActionResult OnGet(int listingId)
         {
             ListingId = listingId;
-            var bids = _unitOfWork.Bids.List(b => b.Listing_Id == listingId).ToList();
+            var bids = _unitOfWork.Bids.List(b => b.Listing_Id == listingId).OrderByDescending(b => b.Price).ToList();
 
             if (bids == null)
             {
