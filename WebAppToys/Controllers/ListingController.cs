@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAppToys.Controllers
 {
@@ -32,6 +33,19 @@ namespace WebAppToys.Controllers
             _unitOfWork.Commit();
             return Json(new { success = true, message = "Deleted Successfully" });
         }
+
+        [HttpGet("{id}")]
+        [AllowAnonymous] // Allow anonymous access to this endpoint
+        public IActionResult GetById(int id)
+        {
+            var listing = _unitOfWork.Listing.GetFirstOrDefault(l => l.Id == id);
+            if (listing == null)
+            {
+                return NotFound();
+            }
+            return Json(listing);
+        }
+
 
     }
 

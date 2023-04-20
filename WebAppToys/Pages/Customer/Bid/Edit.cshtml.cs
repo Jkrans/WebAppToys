@@ -28,6 +28,8 @@ namespace _WebAppToys.Pages.Customer
         [BindProperty]
         public Bids BidsObj { get; set; } = default!;
 
+        public Listing ListingObj { get; set; }
+
         public SelectList UserListings { get; set; }
         private string userId;
 

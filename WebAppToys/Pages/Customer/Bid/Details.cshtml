@@ -69,8 +69,8 @@
                                         <form method="post">
                                             @if (Model.BidsObj.Status == Status.BidSubmitted)
                                             {
-                                                <button type="submit" asp-route-id="@Model.BidsObj?.Id" asp-route-status="BidAccepted" class="btn btn-success me-2">Accept</button>
-                                                <a asp-page="./Edit" asp-route-id="@Model.BidsObj?.Id" asp-route-status="BidSubmitted" class="btn btn-primary me-2">Edit Offer</a>
+                                                <button type="submit" asp-route-id="@Model.BidsObj?.Id" asp-route-status="BidAccepted" class="btn btn-success me-2">Accept *</button>
+                                                <a asp-page="./Edit" asp-route-id="@Model.BidsObj?.Id" asp-route-status="BidCountered" class="btn btn-primary me-2">Edit Offer</a>
                                             }
 
                                             <button type="submit" asp-route-id="@Model.BidsObj?.Id" asp-route-status="BidDeclined" class="btn btn-danger">Cancel Swap</button>
@@ -80,7 +80,7 @@
                                     @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.BidsObj.User_Id)
                                     {
                                         <form method="post">
-                                            if (Model.BidsObj.Status == Status.BidCountered)
+                                            @if (Model.BidsObj.Status == Status.BidCountered)
                                             {
                                                 <button type="submit" asp-route-id="@Model.BidsObj?.Id" asp-route-status="BidAccepted" class="btn btn-success me-2">Accept</button>
                                                 <a asp-page="./Edit" asp-route-id="@Model.BidsObj?.Id" asp-route-status="BidSubmitted" class="btn btn-primary me-2">Edit Offer</a>

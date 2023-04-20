@@ -27,9 +27,9 @@
                         </div>
                         <div class="form-group mt-3">
                             <label asp-for="BidsObj.Trade_Id" class="control-label"></label>
-                            <select asp-for="BidsObj.Trade_Id" asp-items="Model.UserListings" class="form-control custom-select">
+                            <select asp-for="BidsObj.Trade_Id" asp-items="Model.UserListings" id="listingSelect" class="form-control custom-select">
                                 <option value="">-- Select a listing --</option>
-                                
+
                             </select>
                             <span asp-validation-for="BidsObj.Trade_Id" class="text-danger"></span>
                         </div>
@@ -39,6 +39,8 @@
                             <a asp-page="/Admin/Listings/Index" class="btn btn-secondary ml-2">Back to List</a>
                         </div>
                     </form>
+                    <p class="p-0 m-0">Description: </p>
+                    <p id="listingName"></p>
                 </div>
             </div>
         </div>
@@ -46,5 +48,40 @@
 </div>
 
 @section Scripts {
+
+    <script>
+        const listingSelect = document.getElementById('listingSelect');
+        const listingName = document.getElementById('listingName');
+
+        // Get the listing details
+        async function fetchListingDetails(listingId) {
+            const response = await fetch(`/api/Listing/${listingId}`);
+            if (response.ok) {
+                const listing = await response.json();
+                return listing;
+            } else {
+                console.error('Error fetching listing details:', response);
+                return null;
+            }
+        }
+
+        // Update the description
+        async function updateListingName() {
+            const listingId = listingSelect.value;
+            const listing = await fetchListingDetails(listingId);
+            if (listing) {
+                listingName.textContent = listing.description;
+            } else {
+                listingName.textContent = '';
+            }
+        }
+
+        // Handle the change event listingSelect
+        listingSelect.addEventListener('change', updateListingName);
+
+        // Update the listingName when the page loads
+        updateListingName();
+    </script>
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
