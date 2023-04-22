@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using ApplicationCore.Models;
@@ -10,6 +11,7 @@ namespace ApplicationCore.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
+
         // Get a single object by it's key id
         T GetByID(int id);
 

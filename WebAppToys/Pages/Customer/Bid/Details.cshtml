@@ -7,7 +7,7 @@
 }
 
 <div class="container mt-5">
-    @if (User.Identity.IsAuthenticated && Model.BidsObj.Status != Status.BidDeclined &&
+    @if (User.Identity.IsAuthenticated && Model.BidsObj.Status != (Status.BidDeclined) &&
       (User.FindFirstValue(ClaimTypes.NameIdentifier) == @Model.ListingObj.User_Id ||
        User.FindFirstValue(ClaimTypes.NameIdentifier) == @Model.BidsObj.User_Id))
     {
