@@ -49,6 +49,7 @@
     <Folder Include="Pages\Customer\" />
     <Folder Include="Pages\Customer\Bid\" />
     <Folder Include="Pages\Customer\Trade\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
@@ -57,5 +58,8 @@
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\images\" />
   </ItemGroup>
 </Project>
