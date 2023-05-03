@@ -54,7 +54,9 @@
                                     <a asp-page="./Details" asp-route-id="@toy.Id" class="text-decoration-none shadow">
                                         <div class="card w-100 h-100 p-2">
                                             <img src="@toy.Image" class="card-img-top" alt="@toy.Name" />
+
                                             <!--<img src="~/dinosaur-lego.jpeg" class="card-img-top" alt="@toy.Name" />-->
+
                                             <div class="card-body">
                                                 <p class="card-title text-dark small">@toy.Name</p>
                                                 <p class="card-text small" id="@timerId">Loading...</p>
