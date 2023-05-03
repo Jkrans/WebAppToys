@@ -10,6 +10,8 @@ using ApplicationCore.Interfaces;
 using Infrastructure.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace WebAppToys.Pages.Customer
 {
@@ -18,12 +20,16 @@ namespace WebAppToys.Pages.Customer
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly IUrlHelperFactory _urlHelperFactory;
+        private readonly IActionContextAccessor _actionContextAccessor;
 
-        public DetailsModel(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, IEmailSender emailSender)
+        public DetailsModel(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, IEmailSender emailSender, IUrlHelperFactory urlHelperFactory, IActionContextAccessor actionContextAccessor)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _emailSender = emailSender;
+            _urlHelperFactory = urlHelperFactory;
+            _actionContextAccessor = actionContextAccessor;
         }
 
 
@@ -140,6 +146,16 @@ namespace WebAppToys.Pages.Customer
             return RedirectToPage("./accepted");
         }
 
+        private string GetBidDetailsUrl(int bidId)
+        {
+            var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
+            var relativeUrl = urlHelper.Page("/Customer/Bid/Details", new { id = bidId });
+            var request = _actionContextAccessor.ActionContext.HttpContext.Request;
+            return $"{request.Scheme}://{request.Host}{relativeUrl}";
+        }
+
+
+
         /// <summary>
         /// Retrieves the emails of non-winning bidders and updates their bid status to 'Bid Declined'.
         /// </summary>
@@ -150,6 +166,7 @@ namespace WebAppToys.Pages.Customer
         {
             var nonWinningBiddersEmails = new Dictionary<int, string>();
             var bids = _unitOfWork.Bids.List(b => b.Listing_Id == listingId).ToList();
+            string winningBidDetailsUrl = GetBidDetailsUrl(winningBidId);
 
             foreach (var bid in bids)
             {
@@ -183,13 +200,15 @@ namespace WebAppToys.Pages.Customer
             var listingUser = await _userManager.FindByIdAsync(listingUserId);
             var bidderUser = await _userManager.FindByIdAsync(bidderUserId);
             var nonWinningBiddersEmails = await GetNonWinningBiddersEmailsAsync(listingId, winningBidId);
+            string winningBidDetailsUrl = GetBidDetailsUrl(winningBidId);
 
             if (listingUser != null && listingUser.Email != null)
             {
                 await _emailSender.SendEmailAsync(
                     listingUser.Email,
                     "Swap Accepted!",
-                    $"<h2>Please contact {bidderUser.Email} to coordinate your swap in person! Thank you for using Toy Swap Hub!</h2>"
+                    $"<h2>Please contact {bidderUser.Email} to coordinate your swap in person! Thank you for using Toy Swap Hub!</h2>" +
+                    $"<a href='{winningBidDetailsUrl}'>Click here for details</a>"
                 );
             }
 
@@ -198,7 +217,8 @@ namespace WebAppToys.Pages.Customer
                 await _emailSender.SendEmailAsync(
                     bidderUser.Email,
                     "Swap Accepted!",
-                    $"<h2>Please contact {listingUser.Email} to coordinate your swap in person! Thank you for using Toy Swap Hub!</h2>"
+                    $"<h2>Please contact {listingUser.Email} to coordinate your swap in person! Thank you for using Toy Swap Hub!</h2>" +
+                    $"<a href='{winningBidDetailsUrl}'>Click here for details</a>"
                 );
             }
 

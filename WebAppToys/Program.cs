@@ -7,6 +7,7 @@ using Infrastructure.Data;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Models;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
 
 var app = builder.Build();
 
