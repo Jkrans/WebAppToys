@@ -9,11 +9,11 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <div class="card shadow border-0">
-                <div class="card-header bg-primary text-white">
+            <div class="card semi-transparent shadow border-0">
+                <div>
                     <h2>@Model.ListingObj.Name</h2>
                 </div>
-                <div class="card-body"> 
+                <div class="card-body full-transparent"> 
                     <dl class="row">
                         <dt class="col-sm-3">Description:</dt>
                         <dd class="">@Model.ListingObj.Description</dd>
@@ -38,12 +38,7 @@
                             // if user is logged in and not the owner of the listing, show the Bid button
                             <a class="btn btn-primary" asp-page="/Customer/Bid/Create" asp-route-listingId="@Model.ListingObj.Id">Bid</a>
                         }
-                        else
-                        {
-                            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Bid</a>
-
-
-                        }
+                        
                     </div>
                 </div>
             </div>
